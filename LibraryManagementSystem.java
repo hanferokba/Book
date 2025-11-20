@@ -2,13 +2,13 @@
 /*
 Abdulrhman 445101939
 Okbah 446110046
-Github Link: https://github.com/hanferokba/Book.git
 */
+//Github Link: https://github.com/hanferokba/Book.git
 import java.util.Scanner;
 // ============================
 // Book CLASS
 // ============================
-class Book1 {
+class Book {
     private int bookID;
     private String title;
     private String author;
@@ -17,7 +17,7 @@ class Book1 {
     private static int totalBooksAdded = 0;
     private static int totalBooksRemoved = 0;
 
-    public Book1(int bookID, String title, String author, int stock) {
+    public Book(int bookID, String title, String author, int stock) {
         this.bookID = bookID;
         this.title = title;
         this.author = author;
@@ -84,7 +84,7 @@ class Member {
         totalMembersAdded++;
     }
 
-    public boolean borrowBook(Book1 book) {
+    public boolean borrowBook(Book book) {
         if (borrowedBookID == -1 && book != null && book.borrow()) {
             borrowedBooks++;
             totalBorrows++;
@@ -95,7 +95,7 @@ class Member {
         return false;
     }
 
-    public boolean returnBook(Book1 book) {
+    public boolean returnBook(Book book) {
         if (book != null && borrowedBookID == book.getBookID()) {
             book.returnBook();
             borrowedBooks--;
@@ -140,13 +140,13 @@ class Member {
 // Library CLASS
 // ============================
 class Library {
-    private Book1[] books;
+    private Book[] books;
     private Member[] members;
     private int bookCount = 0;
     private int memberCount = 0;
 
     public Library(int maxBooks, int maxMembers) {
-        books = new Book1[maxBooks];
+        books = new Book[maxBooks];
         members = new Member[maxMembers];
     }
 
@@ -159,7 +159,7 @@ class Library {
             }
         }
         if (bookCount < books.length) {
-            books[bookCount++] = new Book1(bookID, title, author, stock);
+            books[bookCount++] = new Book(bookID, title, author, stock);
         } else {
             System.out.println("❌ Book storage full!");
         }
@@ -168,7 +168,7 @@ class Library {
     public void removeBook(int bookID) {
         for (int i = 0; i < bookCount; i++) {
             if (books[i].getBookID() == bookID) {
-                Book1.incrementRemovedBooks();
+                Book.incrementRemovedBooks();
                 books[i] = books[--bookCount];
                 System.out.println("✅ Book removed successfully.");
                 return;
@@ -188,13 +188,13 @@ class Library {
     public void generateLibraryReport() {
         System.out.println("\n📊 Library Report:");
         System.out.printf("Total Books Added: %d | Total Books Removed: %d\n",
-                Book1.getTotalBooksAdded(), Book1.getTotalBooksRemoved());
+                Book.getTotalBooksAdded(), Book.getTotalBooksRemoved());
         System.out.printf("Total Members: %d\n", Member.getTotalMembersAdded());
         System.out.printf("Total Books Borrowed: %d | Total Books Returned: %d\n",
                 Member.getTotalBooksBorrowed(), Member.getTotalBooksReturned());
     }
 
-    public Book1 getBook(int bookID) {
+    public Book getBook(int bookID) {
         for (int i = 0; i < bookCount; i++) {
             if (books[i].getBookID() == bookID) {
                 return books[i];
@@ -223,7 +223,7 @@ class Library {
 // ============================
 // MAIN CLASS
 // ============================
-public class Book {
+public class LibraryManagementSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Library library = new Library(10, 5);
@@ -269,7 +269,7 @@ public class Book {
                     case 2:
                         System.out.print("Enter Book ID to Borrow: ");
                         int borrowBookID = scanner.nextInt();
-                        Book1 borrowBook = library.getBook(borrowBookID);
+                        Book borrowBook = library.getBook(borrowBookID);
 
                         if (borrowBook != null && member.borrowBook(borrowBook)) {
                             System.out.println("✅ Book Borrowed Successfully!");
@@ -278,7 +278,7 @@ public class Book {
                         }
                         break;
                     case 3:
-                        Book1 borrowedBook = library.getBook(member.getBorrowedBookID());
+                        Book borrowedBook = library.getBook(member.getBorrowedBookID());
                         if (borrowedBook != null && member.returnBook(borrowedBook)) {
                             System.out.println("✅ Book Returned Successfully!");
                         } else {
